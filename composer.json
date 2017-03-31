@@ -1,0 +1,33 @@
+{
+  "name": "michaeldomo/yii2-service",
+  "description": "Yii2 example that show service work",
+  "type": "yii2-extension",
+  "keywords": ["yii2", "service"],
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Michael Domo",
+      "email": "domolazov.michael@gmail.com"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/MichaelDomo/yii2-service/issues?state=open",
+    "source": "https://github.com/MichaelDomo/yii2-service"
+  },
+  "require": {
+    "yiisoft/yii2": "^2.0.6"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "michaeldomo\\service\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "michaeldomo\\service\\tests\\": "tests/"
+    }
+  }
+}
