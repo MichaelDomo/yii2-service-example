@@ -3,7 +3,6 @@
 namespace michaeldomo\service\models;
 
 use yii\db\ActiveRecord;
-use michaeldomo\service\models\UserToken;
 use yii\web\IdentityInterface;
 use michaeldomo\service\services\AuthTokenizer;
 use michaeldomo\service\services\PasswordHasher;
@@ -19,6 +18,7 @@ use michaeldomo\service\services\PasswordHasher;
  * @property mixed $id
  * @property string $auth_key
  * @property string $email_confirm_token
+ * @property string $password_reset_token
  * @property string $password write-only password
  *
  * @property string $emailConfirmToken
