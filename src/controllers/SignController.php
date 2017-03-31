@@ -10,7 +10,7 @@ class SignController extends Controller
 {
     private $userService;
 
-    public function __construct(UserService $userService, $id, $module, $config = [])
+    public function __construct($id, $module, UserService $userService, $config = [])
     {
         $this->userService = $userService;
         parent::__construct($id, $module, $config);
