@@ -32,6 +32,13 @@ class UserService
             $this->passwordHasher,
             $this->authTokenizer
         );
+
+        /**
+         * Отправляем письмо
+         * Логируем добавление нового пользователя
+         * etc
+         */
+
         $this->userRepository->add($user);
     }
 
