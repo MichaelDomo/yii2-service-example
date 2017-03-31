@@ -8,10 +8,26 @@ class UserRepository
 {
     public function find($id)
     {
-        if (!$user = User::findOne($id)) {
+        if (null === ($user = User::findOne($id))) {
             throw new \InvalidArgumentException('Model not found');
         }
         return $user;
+    }
+
+    public function add(User $user)
+    {
+        if (!$user->getIsNewRecord()) {
+            throw new \InvalidArgumentException('Model not exists');
+        }
+        $user->insert(false);
+    }
+
+    public function save(User $user)
+    {
+        if (!$user->getIsNewRecord()) {
+            throw new \InvalidArgumentException('Model not exists');
+        }
+        $user->update(false);
     }
 
     /**
@@ -35,24 +51,13 @@ class UserRepository
 
     public function findByEmailConfirmToken($token)
     {
-        return User::find()
+        $user = User::find()
             ->andWhere(['like', 'email_confirm_token', $token])
             ->one();
-    }
 
-    public function add(User $user)
-    {
-        if (!$user->getIsNewRecord()) {
-            throw new \InvalidArgumentException('Model not exists');
+        if (null === $user) {
+            throw new \InvalidArgumentException('Model not found');
         }
-        $user->insert(false);
-    }
-
-    public function save(User $user)
-    {
-        if (!$user->getIsNewRecord()) {
-            throw new \InvalidArgumentException('Model not exists');
-        }
-        $user->update(false);
+        return $user;
     }
 }

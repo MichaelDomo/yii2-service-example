@@ -6,7 +6,7 @@ use yii\db\ActiveRecord;
 use michaeldomo\service\models\UserToken;
 use yii\web\IdentityInterface;
 use michaeldomo\service\services\AuthTokenizer;
-use michaeldomo\service\services\PasswordHasher
+use michaeldomo\service\services\PasswordHasher;
 
 /**
  * Class User
@@ -41,6 +41,7 @@ class User extends ActiveRecord implements IdentityInterface
         $user->username = $username;
         $user->email = $email;
         $user->status = self::STATUS_NOT_ACTIVE;
+
         $user->setEmailConfirmToken($authTokenizer);
         $user->setPassword($passwordHasher, $password);
 
@@ -61,13 +62,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->email_confirm_token = $authTokenizer->generate();
     }
-
-
-
-
-
-
-
 
     /**
      * Только для того чтобы не ругался интерфейс
