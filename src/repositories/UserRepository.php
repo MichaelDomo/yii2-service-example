@@ -24,7 +24,7 @@ class UserRepository
 
     public function save(User $user)
     {
-        if (!$user->getIsNewRecord()) {
+        if ($user->getIsNewRecord()) {
             throw new \InvalidArgumentException('Model not exists');
         }
         $user->update(false);

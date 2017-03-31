@@ -5,6 +5,7 @@ namespace michaeldomo\service\controllers;
 use Yii;
 use yii\base\Controller;
 use michaeldomo\service\services\UserService;
+use michaeldomo\service\forms\SignupForm;
 
 class SignController extends Controller
 {
