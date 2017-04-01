@@ -19,9 +19,7 @@ use michaeldomo\service\services\PasswordHasher;
  * @property string $auth_key
  * @property string $email_confirm_token
  * @property string $password_reset_token
- * @property string $password write-only password
  *
- * @property string $emailConfirmToken
  * @property string $authKey
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -41,9 +39,10 @@ class User extends ActiveRecord implements IdentityInterface
         $user->username = $username;
         $user->email = $email;
         $user->status = self::STATUS_NOT_ACTIVE;
-
-        $user->setEmailConfirmToken($authTokenizer);
-        $user->setPassword($passwordHasher, $password);
+        $user->password_hash = $passwordHasher->hash($password);
+        $user->email_confirm_token = $authTokenizer->generate();
+        $user->changeEmailConfirmToken($authTokenizer);
+        $user->changePassword($passwordHasher, $password);
 
         return $user;
     }
@@ -51,16 +50,6 @@ class User extends ActiveRecord implements IdentityInterface
     public function confirmSignup()
     {
         $this->status = self::STATUS_ACTIVE;
-    }
-
-    public function setPassword(PasswordHasher $passwordHasher, $password)
-    {
-        $this->password_hash = $passwordHasher->generate($password);
-    }
-
-    public function setEmailConfirmToken(AuthTokenizer $authTokenizer)
-    {
-        $this->email_confirm_token = $authTokenizer->generate();
     }
 
     /**

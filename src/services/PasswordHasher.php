@@ -13,7 +13,7 @@ class PasswordHasher
         $this->security = $security;
     }
 
-    public function generate($password)
+    public function hash($password)
     {
         return $this->security->generatePasswordHash($password);
     }
