@@ -1,15 +1,26 @@
 <?php
 
-namespace app\services;
+namespace base\services;
 
-use michaeldomo\service\models\Log;
+use Yii;
+use common\commands\AddToTimelineCommand;
+use base\services\interfaces\LoggerInterface;
 
+/**
+ * Class Logger
+ * @package base\services
+ */
 class Logger implements LoggerInterface
 {
-    public function log($message)
+    /**
+     * @inheritdoc
+     */
+    public function log($category, $event, $data)
     {
-        $log = new Log();
-        $log->message = $message;
-        $log->save(false);
+        Yii::$app->commandBus->handle(new AddToTimelineCommand([
+            'category' => $category,
+            'event' => $event,
+            'data' => $data
+        ]));
     }
 }

@@ -1,24 +1,27 @@
 <?php
 
-namespace michaeldomo\service\services;
+namespace base\services;
 
 use Yii;
+use common\commands\SendEmailCommand;
+use base\services\interfaces\NotifierInterface;
 
+/**
+ * Class Notifier
+ * @package base\services
+ */
 class Notifier implements NotifierInterface
 {
-    private $fromEmail;
-
-    public function __construct($fromEmail)
+    /**
+     * @inheritdoc
+     */
+    public function notify($view, $email, $subject, $params)
     {
-        $this->fromEmail = $fromEmail;
-    }
-
-    public function notify($view, $data, $email, $subject)
-    {
-        Yii::$app->mailer->compose($view, $data)
-            ->setFrom($this->fromEmail)
-            ->setTo($email)
-            ->setSubject($subject)
-            ->send();
+        Yii::$app->commandBus->handle(new SendEmailCommand([
+            'subject' => Yii::t('frontend', $subject),
+            'view' => $view,
+            'to' => $email,
+            'params' => $params
+        ]));
     }
 }

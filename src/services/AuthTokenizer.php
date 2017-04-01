@@ -1,31 +1,43 @@
 <?php
 
-namespace michaeldomo\service\services;
+namespace base\services;
 
 use yii\base\Security;
+use base\services\interfaces\AuthTokenizerInterface;
 
-class AuthTokenizer
+/**
+ * Class AuthTokenizer
+ * @package base\services
+ */
+class AuthTokenizer implements AuthTokenizerInterface
 {
     private $security;
-    private $timeout;
+    private $length;
 
-    public function __construct(Security $security, $timeout)
+    /**
+     * AuthTokenizer constructor.
+     * @param Security $security
+     * @param $length
+     */
+    public function __construct(Security $security, $length)
     {
         $this->security = $security;
-        $this->timeout = $timeout;
+        $this->length = $length;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function generate()
     {
-        return $this->security->generateRandomString() . '_' . time();
+        return $this->security->generateRandomString($this->length);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function validate($token)
     {
-        if (empty($token)) {
-            return false;
-        }
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
-        return $timestamp + $this->timeout >= time();
+        return empty($token) ? false : true;
     }
 }

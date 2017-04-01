@@ -1,9 +1,15 @@
 <?php
 
-namespace michaeldomo\service\forms;
+namespace frontend\modules\user\forms;
 
-use michaeldomo\service\repositories\UserRepository;
+use Yii;
+use yii\base\Model;
+use base\repositories\UserRepository;
 
+/**
+ * Class SignupForm
+ * @package frontend\modules\user\forms
+ */
 class SignupForm extends Model
 {
     public $username;
@@ -12,12 +18,20 @@ class SignupForm extends Model
 
     private $userRepository;
 
+    /**
+     * SignupForm constructor.
+     * @param UserRepository $userRepository
+     * @param array $config
+     */
     public function __construct(UserRepository $userRepository, $config = [])
     {
         $this->userRepository = $userRepository;
         parent::__construct($config);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -31,17 +45,35 @@ class SignupForm extends Model
         ];
     }
 
+    /**
+     * @param $attribute
+     */
     public function validateUsername($attribute)
     {
         if ($this->userRepository->existsByUsername($this->$attribute)) {
-            $this->addError($attribute, 'This username has already been taken.');
+            $this->addError($attribute, Yii::t('frontend', 'This username has already been taken.'));
         }
     }
 
+    /**
+     * @param $attribute
+     */
     public function validateEmail($attribute)
     {
         if ($this->userRepository->existsByEmail($this->$attribute)) {
-            $this->addError($attribute, 'This email has already been taken.');
+            $this->addError($attribute, Yii::t('frontend', 'This email address has already been taken.'));
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => Yii::t('frontend', 'Username'),
+            'email' => Yii::t('frontend', 'E-mail'),
+            'password' => Yii::t('frontend', 'Password'),
+        ];
     }
 }

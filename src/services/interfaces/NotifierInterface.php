@@ -1,7 +1,19 @@
 <?php
-namespace michaeldomo\service\services\interfaces;
 
+namespace base\services\interfaces;
+
+/**
+ * Interface NotifierInterface
+ * @package base\services\interfaces
+ */
 interface NotifierInterface
 {
-    public function notify($view, $data, $email, $subject);
+    /**
+     * @param $view
+     * @param $params
+     * @param $email
+     * @param $subject
+     * @return mixed
+     */
+    public function notify($view, $email, $subject, $params);
 }
